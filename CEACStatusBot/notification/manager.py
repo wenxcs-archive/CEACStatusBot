@@ -80,8 +80,6 @@ class NotificationManager:
 
             try:
                 TIMEZONE = os.environ["TIMEZONE"]
-                ACTIVE_HOURS = os.getenv("ACTIVE_HOURS", DEFAULT_ACTIVE_HOURS)
-
                 localTimeZone = pytz.timezone(TIMEZONE)
                 localTime = datetime.datetime.now(localTimeZone)
             except pytz.exceptions.UnknownTimeZoneError:
