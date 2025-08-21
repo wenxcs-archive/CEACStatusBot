@@ -50,7 +50,7 @@ class NotificationManager:
             self.__captchaHandle,
         )
         current_status = res["status"]
-
+        print(f"Current status: {current_status} - Last updated: {res['case_last_updated']}")
         # Load the previous statuses from the file
         statuses = self.__load_statuses()
 
