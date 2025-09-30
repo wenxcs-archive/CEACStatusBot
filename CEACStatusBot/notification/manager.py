@@ -71,7 +71,7 @@ class NotificationManager:
 
     def __save_current_status(self, status: str) -> None:
         statuses = self.__load_statuses()
-        statuses.append({"status": status, "date": datetime.now().isoformat()})
+        statuses.append({"status": status, "date": datetime.datetime.now().isoformat()})
 
         with open(self.__status_file, "w") as file:
             json.dump({"statuses": statuses}, file)
@@ -93,7 +93,10 @@ class NotificationManager:
             start_dt = datetime.datetime.combine(localTime.date(), active_hour_start, tzinfo=localTimeZone)
             end_dt = datetime.datetime.combine(localTime.date(), active_hour_end, tzinfo=localTimeZone)
             if not (start_dt <= localTime <= end_dt):
-                print(f"Outside active hours {self.__active_hours_range}")
+                print(
+                    f"Outside active hours {os.getenv('ACTIVE_HOURS', DEFAULT_ACTIVE_HOURS)}. "
+                    "No notification sent for Refused status."
+                )
                 return
 
         for notificationHandle in self.__handleList:
