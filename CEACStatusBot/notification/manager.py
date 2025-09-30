@@ -1,6 +1,8 @@
 import json
 import os
-from datetime import datetime
+import datetime
+
+import pytz
 
 from CEACStatusBot.captcha import CaptchaHandle, OnnxCaptchaHandle
 from CEACStatusBot.request import query_status
@@ -76,8 +78,6 @@ class NotificationManager:
 
     def __send_notifications(self, res: dict) -> None:
         if res["status"] == "Refused":
-            import pytz, datetime
-
             try:
                 TIMEZONE = os.environ["TIMEZONE"]
                 localTimeZone = pytz.timezone(TIMEZONE)
