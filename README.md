@@ -57,7 +57,9 @@ Create a Telegram bot and get the info below according to [this tutorial](https:
 3. check your workflow in Actions and your Mailbox / Telegram
 
 ### Local Usage
-You can also run this bot locally. Simply clone this repo and use uv to build the environment:
+You can also run this bot locally. 
+For local development, create a `.env` file in the project root to store your environment variables (e.g., `LOCATION=...`, `NUMBER=...`). The script will automatically load them. Or copy the `.env.example` file and rename it to `.env` and fill in the values.
+Then, use uv to build the environment:
 
 ```bash
 pip install uv # if you don't have uv installed
