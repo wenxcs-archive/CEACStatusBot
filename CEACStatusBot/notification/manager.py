@@ -52,13 +52,14 @@ class NotificationManager:
             self.__captchaHandle,
         )
         current_status = res["status"]
-        print(f"Current status: {current_status} - Last updated: {res['case_last_updated']}")
+        current_last_updated = res["case_last_updated"]
+        print(f"Current status: {current_status} - Last updated: {current_last_updated}")
         # Load the previous statuses from the file
         statuses = self.__load_statuses()
 
         # Check if the current status is different from the last recorded status
-        if not statuses or current_status != statuses[-1]["status"]:
-            self.__save_current_status(current_status)
+        if not statuses or current_status != statuses[-1].get("status", None) or current_last_updated != statuses[-1].get("last_updated", None):
+            self.__save_current_status(current_status, current_last_updated)
             self.__send_notifications(res)
         else:
             print("Status unchanged. No notification sent.")
@@ -69,9 +70,13 @@ class NotificationManager:
                 return json.load(file).get("statuses", [])
         return []
 
-    def __save_current_status(self, status: str) -> None:
+    def __save_current_status(self, status: str, last_updated: str) -> None:
         statuses = self.__load_statuses()
-        statuses.append({"status": status, "date": datetime.datetime.now().isoformat()})
+        statuses.append({
+            "status": status,
+            "last_updated": last_updated,
+            "date": datetime.datetime.now().isoformat()
+        })
 
         with open(self.__status_file, "w") as file:
             json.dump({"statuses": statuses}, file)
